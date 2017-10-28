@@ -1,0 +1,24 @@
+{
+  "name": "hopper",
+  "version": "1.0.0",
+  "description": "Production data visualizer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ramon Blanquer",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "browserify": "^14.5.0",
+    "es6ify": "^1.6.0",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
