@@ -53,15 +53,32 @@ var App = function (_React$Component) {
       });
     }
   }, {
+    key: 'handleInputChange',
+    value: function handleInputChange(event) {
+      var target = event.target;
+      console.dir(target);
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var data = this.state.data;
       var fields = Object.keys(data.length ? data[0] : {});
       var filtering = fields.map(function (name) {
         return _react2.default.createElement(
           'li',
           { key: name },
-          name
+          _react2.default.createElement('input', {
+            id: name,
+            name: name,
+            type: 'checkbox',
+            onChange: _this3.handleInputChange }),
+          _react2.default.createElement(
+            'label',
+            { htmlFor: name },
+            name
+          )
         );
       });
       var optionsLen = data.length;

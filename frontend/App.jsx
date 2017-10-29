@@ -17,17 +17,33 @@ class App extends React.Component {
       .catch(err => console.log(err))
   }
 
+  handleInputChange(event) {
+    const target = event.target;
+    console.dir(target);
+  }
+
   render() {
-    let data = this.state.data;
-    let fields = Object.keys(data.length ? data[0] : {});
-    let filtering = fields.map((name) => {
-      return <li key={name}>{name}</li>
+    const data = this.state.data;
+    const fields = Object.keys(data.length ? data[0] : {});
+    const filtering = fields.map((name) => {
+      return (
+        <li key={name}>
+          <input
+            id={name}
+            name={name}
+            type="checkbox"
+            onChange={this.handleInputChange} />
+          <label htmlFor={name}>{name}</label>
+        </li>
+      );
     });
-    let optionsLen = data.length;
+    const optionsLen = data.length;
     return (
       <div className="App">
         <p>{optionsLen}</p>
-        <ul>{filtering}</ul>
+        <ul>
+          {filtering}
+        </ul>
         <Table stats={data} />
       </div>
     )
