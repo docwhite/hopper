@@ -5,7 +5,6 @@ import Table from './Table.jsx'
 class App extends React.Component {
   constructor() {
     super();
-    console.log("Constructing App");
     this.state = {
       data: []
     }
@@ -20,9 +19,15 @@ class App extends React.Component {
 
   render() {
     let data = this.state.data;
+    let fields = Object.keys(data.length ? data[0] : {});
+    let filtering = fields.map((name) => {
+      return <li key={name}>{name}</li>
+    });
+    let optionsLen = data.length;
     return (
       <div className="App">
-        <p>placeholder</p>
+        <p>{optionsLen}</p>
+        <ul>{filtering}</ul>
         <Table stats={data} />
       </div>
     )
@@ -30,7 +35,8 @@ class App extends React.Component {
 }
 
 ReactDOM.render(
-  <App message="hello" />,
+  <App />,
   document.querySelector('#root')
 );
-// export default App;
+
+export default App;
