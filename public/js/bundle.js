@@ -36,7 +36,8 @@ var App = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
     _this.state = {
-      data: []
+      data: [],
+      filter: []
     };
     return _this;
   }
@@ -56,7 +57,16 @@ var App = function (_React$Component) {
     key: 'handleInputChange',
     value: function handleInputChange(event) {
       var target = event.target;
-      console.dir(target);
+      var filter = this.state.filter;
+      if (target.checked) {
+        filter.push(target.id);
+      } else {
+        var index = filter.indexOf(target.id);
+        if (index !== -1) {
+          filter.splice(index, 1);
+        }
+      }
+      this.setState({ filter: filter });
     }
   }, {
     key: 'render',
@@ -73,7 +83,7 @@ var App = function (_React$Component) {
             id: name,
             name: name,
             type: 'checkbox',
-            onChange: _this3.handleInputChange }),
+            onChange: _this3.handleInputChange.bind(_this3) }),
           _react2.default.createElement(
             'label',
             { htmlFor: name },
@@ -95,7 +105,7 @@ var App = function (_React$Component) {
           null,
           filtering
         ),
-        _react2.default.createElement(_Table2.default, { stats: data })
+        _react2.default.createElement(_Table2.default, { stats: data, filter: this.state.filter })
       );
     }
   }]);
@@ -108,7 +118,7 @@ _reactDom2.default.render(_react2.default.createElement(App, null), document.que
 exports.default = App;
 
 },{"./Table.jsx":2,"react":"react","react-dom":30}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -116,7 +126,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -128,8 +138,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// import './Table.css';
-
 var Table = function (_Component) {
   _inherits(Table, _Component);
 
@@ -140,53 +148,41 @@ var Table = function (_Component) {
   }
 
   _createClass(Table, [{
-    key: "render",
+    key: 'render',
     value: function render() {
-      var rows = this.props.stats.map(function (stat) {
+      var _this2 = this;
+
+      var head = this.props.filter.map(function (name) {
         return _react2.default.createElement(
-          "tr",
-          { key: stat.name },
-          _react2.default.createElement(
-            "td",
-            null,
-            stat.name
-          ),
-          _react2.default.createElement(
-            "td",
-            null,
-            stat.surname
-          ),
-          _react2.default.createElement(
-            "td",
-            null,
-            stat.age
-          )
+          'th',
+          { key: name },
+          name
         );
       });
+      var rows = this.props.stats.map(function (stat) {
+        return _react2.default.createElement(
+          'tr',
+          { key: stat.name },
+          _this2.props.filter.map(function (f) {
+            return _react2.default.createElement(
+              'td',
+              { key: f },
+              stat[f]
+            );
+          })
+        );
+      }, this);
+
       return _react2.default.createElement(
-        "table",
+        'table',
         null,
         _react2.default.createElement(
-          "tbody",
+          'tbody',
           null,
           _react2.default.createElement(
-            "tr",
-            { key: "yey" },
-            _react2.default.createElement(
-              "th",
-              null,
-              "First Name"
-            ),
-            _react2.default.createElement(
-              "th",
-              null,
-              "Last Name"
-            ),
-            _react2.default.createElement(
-              "th",
-              null,
-              "Age"
-            )
+            'tr',
+            null,
+            head
           ),
           rows
         )

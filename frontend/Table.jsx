@@ -1,24 +1,21 @@
 import React, { Component } from 'react';
-// import './Table.css';
 
 class Table extends Component {
   render() {
+    const head = this.props.filter.map((name) => <th key={name}>{name}</th>);
     const rows = this.props.stats.map((stat) => {
       return (
         <tr key={stat.name}>
-          <td>{stat.name}</td>
-          <td>{stat.surname}</td>
-          <td>{stat.age}</td>
+          {this.props.filter.map((f) => <td key={f}>{stat[f]}</td>)}
         </tr>
       )
-    })
+    }, this);
+
     return (
       <table>
         <tbody>
-          <tr key="yey">
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Age</th>
+          <tr>
+            {head}
           </tr>
           {rows}
         </tbody>

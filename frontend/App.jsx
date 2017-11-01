@@ -6,7 +6,8 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: []
+      data: [],
+      filter: []
     }
   }
 
@@ -19,7 +20,16 @@ class App extends React.Component {
 
   handleInputChange(event) {
     const target = event.target;
-    console.dir(target);
+    let filter = this.state.filter;
+    if (target.checked) {
+      filter.push(target.id);
+    } else {
+      const index = filter.indexOf(target.id);
+      if (index !== -1) {
+        filter.splice(index, 1);
+      }
+    }
+    this.setState({ filter: filter });
   }
 
   render() {
@@ -32,7 +42,7 @@ class App extends React.Component {
             id={name}
             name={name}
             type="checkbox"
-            onChange={this.handleInputChange} />
+            onChange={this.handleInputChange.bind(this)} />
           <label htmlFor={name}>{name}</label>
         </li>
       );
@@ -44,7 +54,7 @@ class App extends React.Component {
         <ul>
           {filtering}
         </ul>
-        <Table stats={data} />
+        <Table stats={data} filter={this.state.filter} />
       </div>
     )
   }
