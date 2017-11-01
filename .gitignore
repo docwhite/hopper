@@ -1,6 +1,5 @@
 node_modules/
-public/js/maps/
+public/js/
 public/vendor/
 
 package-lock.json
-public/js/vendor.js
