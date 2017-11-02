@@ -11,14 +11,14 @@ var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
 var stylus = require('gulp-stylus');
 
-const vendors = ['react'];
+const vendors = ['react', 'axios'];
 
 // Compile stylus into css
 gulp.task('styles', function() {
-  return gulp.src('frontend/*.styl')
-    .pipe(concat('styles.css'))
+  return gulp.src('./frontend/*.styl')
     .pipe(sourcemaps.init())
     .pipe(stylus())
+    .pipe(concat('styles.css'))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest('public/css'));
 });
@@ -64,7 +64,7 @@ gulp.task('clean', function() {
 });
 
 // Entry point
-gulp.task('default', ['styles', 'build'], function() {
+gulp.task('default', ['styles', 'vendor', 'build'], function() {
   gulp.watch('frontend/*.jsx', ['build']);
   gulp.watch('frontend/*.styl', ['styles'])
 });

@@ -5,7 +5,7 @@ class Table extends Component {
     const head = this.props.filter.map((name) => <th key={name}>{name}</th>);
     const rows = this.props.stats.map((stat) => {
       return (
-        <tr key={stat.name}>
+        <tr key={stat.id}>
           {this.props.filter.map((f) => <td key={f}>{stat[f]}</td>)}
         </tr>
       )

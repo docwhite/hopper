@@ -1,6 +1,8 @@
 import React from 'react';
+import axios from 'axios';
 import ReactDOM from 'react-dom';
 import Table from './Table.jsx'
+import Box from './Box.jsx'
 
 class App extends React.Component {
   constructor() {
@@ -16,6 +18,11 @@ class App extends React.Component {
       .get(`/data`)
       .then(res => this.setState({ data: res.data }))
       .catch(err => console.log(err))
+  }
+
+  handleFilterQuery(ev) {
+    console.log('Handling filter query.');
+    console.dir(ev);
   }
 
   handleInputChange(event) {
@@ -50,11 +57,11 @@ class App extends React.Component {
     const optionsLen = data.length;
     return (
       <div className="App">
-        <p>{optionsLen}</p>
         <ul>
           {filtering}
         </ul>
         <Table stats={data} filter={this.state.filter} />
+        <Box onFilterQuery={() => this.handleFilterQuery }/>
       </div>
     )
   }

@@ -1,5 +1,8 @@
 node_modules/
-public/js/
-public/vendor/
+
+public/css/*.css
+public/css/maps
+public/js/*.js
+public/js/maps
 
 package-lock.json
