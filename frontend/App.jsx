@@ -22,7 +22,7 @@ class App extends React.Component {
 
   handleFilterQuery(ev) {
     console.log('Handling filter query.');
-    console.dir(ev);
+    console.log(ev);
   }
 
   handleInputChange(event) {
@@ -61,7 +61,7 @@ class App extends React.Component {
           {filtering}
         </ul>
         <Table stats={data} filter={this.state.filter} />
-        <Box onFilterQuery={() => this.handleFilterQuery }/>
+        <Box onFilterQuery={this.handleFilterQuery.bind(this)}/>
       </div>
     )
   }
