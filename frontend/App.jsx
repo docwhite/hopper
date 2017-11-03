@@ -7,10 +7,9 @@ import Box from './Box.jsx'
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      data: [],
-      filter: []
-    }
+    this.handleQueryChange = this.handleQueryChange.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.state = {data: [], filter: [], query: ''};
   }
 
   componentDidMount() {
@@ -20,12 +19,11 @@ class App extends React.Component {
       .catch(err => console.log(err))
   }
 
-  handleFilterQuery(ev) {
-    console.log('Handling filter query.');
-    console.log(ev);
+  handleQueryChange(ev) {
+    this.setState({query: ev.target.value});
   }
 
-  handleInputChange(event) {
+  handleFilterChange(event) {
     const target = event.target;
     let filter = this.state.filter;
     if (target.checked) {
@@ -49,7 +47,7 @@ class App extends React.Component {
             id={name}
             name={name}
             type="checkbox"
-            onChange={this.handleInputChange.bind(this)} />
+            onChange={this.handleFilterChange} />
           <label htmlFor={name}>{name}</label>
         </li>
       );
@@ -60,8 +58,8 @@ class App extends React.Component {
         <ul>
           {filtering}
         </ul>
-        <Table stats={data} filter={this.state.filter} />
-        <Box onFilterQuery={this.handleFilterQuery.bind(this)}/>
+        <Box onQueryChange={this.handleQueryChange} />
+        <Table stats={data} filter={this.state.filter} query={this.state.query} />
       </div>
     )
   }

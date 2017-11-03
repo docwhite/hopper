@@ -4,8 +4,7 @@ class Box extends Component {
   render() {
     return (
       <div>
-        <input type="text" />
-        <button onClick={this.props.onFilterQuery}>Hi</button>
+        <input type="text" onChange={this.props.onQueryChange} />
       </div>
     )
   }
