@@ -14,7 +14,7 @@ class App extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`/data`)
+      .get('/data')
       .then(res => this.setState({ data: res.data }))
       .catch(err => console.log(err))
   }
