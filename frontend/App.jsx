@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReactDOM from 'react-dom';
 import Table from './Table.jsx'
 import Box from './Box.jsx'
+import Average from './Average.jsx'
 
 class App extends React.Component {
   constructor() {
@@ -39,6 +40,8 @@ class App extends React.Component {
 
   render() {
     const data = this.state.data;
+    const query = this.state.query;
+    const filter = this.state.filter;
     const fields = Object.keys(data.length ? data[0] : {});
     const filtering = fields.map((name) => {
       return (
@@ -59,7 +62,8 @@ class App extends React.Component {
           {filtering}
         </ul>
         <Box onQueryChange={this.handleQueryChange} />
-        <Table stats={data} filter={this.state.filter} query={this.state.query} />
+        <Table stats={data} filter={filter} query={query} />
+        <Average stats={data} filter={filter} />
       </div>
     )
   }
