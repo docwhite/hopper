@@ -3,12 +3,10 @@ import React from 'react';
 class Average extends React.Component {
   render() {
     let numEntries = this.props.stats.length;
-    let a = 9;
     let report = {};
     this.props.filter.forEach((f) => {
       if (numEntries > 0) {
         if (!isNaN(this.props.stats[0][f])) {
-          console.log(`${f} is a number!`);
           let sum = 0;
           let min = 0;
           let max = 0;

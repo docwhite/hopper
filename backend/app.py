@@ -1,5 +1,6 @@
 import os
 import random
+
 from flask import Flask, render_template, jsonify
 from random_words import RandomNicknames, RandomWords, RandomEmails
 
@@ -34,3 +35,4 @@ def data():
 
 if __name__ == '__main__':
     app.run(debug=True)
+

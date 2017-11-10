@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 class Table extends Component {
   render() {
     const head = this.props.filter.map((name) => <th key={name}>{name}</th>);
-    let commands = [];
     let filteredQuery;
 
     if (this.props.stats.length) {

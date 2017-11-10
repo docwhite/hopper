@@ -1,6 +1,8 @@
-import React from 'react';
 import axios from 'axios';
+
+import React from 'react';
 import ReactDOM from 'react-dom';
+
 import Table from './Table.jsx'
 import Box from './Box.jsx'
 import Average from './Average.jsx'
@@ -55,7 +57,7 @@ class App extends React.Component {
         </li>
       );
     });
-    const optionsLen = data.length;
+
     return (
       <div className="App">
         <ul>
