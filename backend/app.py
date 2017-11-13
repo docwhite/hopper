@@ -4,9 +4,14 @@ import random
 from flask import Flask, render_template, jsonify
 from random_words import RandomNicknames, RandomWords, RandomEmails
 
-STATIC = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', 'public')
-)
+PRODUCTION = os.getenv('PRODUCTION', 1)
+
+if PRODUCTION:
+    STATIC = os.path.dirname(__file__)
+else:
+    STATIC = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..', 'public')
+    )
 
 app = Flask(__name__)
 app._static_folder = STATIC
@@ -34,5 +39,5 @@ def data():
     return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=bool(not PRODUCTION))
 

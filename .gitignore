@@ -1,5 +1,8 @@
 node_modules/
 
+dist/
+dist.zip
+
 public/css/*.css
 public/css/maps
 public/js/*.js

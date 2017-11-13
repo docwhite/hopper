@@ -21,6 +21,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-stylus": "^2.6.0",
+    "gulp-zip": "^4.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "reactify": "^1.1.1",
