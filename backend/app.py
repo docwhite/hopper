@@ -1,22 +1,21 @@
 import os
 import sys
 
-from flask import Flask, render_template, jsonify
-
-from generator import generator
-
 PRODUCTION = bool(int(os.getenv("PRODUCTION", "1")))
 
 if PRODUCTION:
     sys.path.append('./dependencies')
+    sys.path.append('./dependencies/MarkupSafe-1.0')
+    sys.path.append('./dependencies/itsdangerous-0.24')
+    sys.path.append('./dependencies/RandomWords-0.2.1')
     STATIC = os.path.dirname(__file__)
 else:
     STATIC = os.path.abspath(
         os.path.join(os.path.dirname(__file__), '..', 'public')
     )
 
-print PRODUCTION
-print STATIC
+from flask import Flask, render_template, jsonify
+from generator import generator
 
 app = Flask(__name__)
 app._static_folder = STATIC

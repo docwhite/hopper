@@ -1,4 +1,6 @@
 #!/bin/sh
 
-unzip *.whl
-tar -xvf *.tar.gz
+cd dependencies
+unzip '*.whl'
+for file in *.tar.gz; do tar -zxf $file; done
+cd ..

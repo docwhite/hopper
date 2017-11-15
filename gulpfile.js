@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var gulpif = require('gulp-if')
 var babelify = require('babelify');
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
@@ -13,6 +14,7 @@ var stylus = require('gulp-stylus');
 var zip = require('gulp-zip');
 
 var exec = require('child_process').exec;
+var yargs = require('yargs').argv;
 
 const vendors = ['react', 'axios'];
 
@@ -22,14 +24,14 @@ gulp.task('styles', function() {
     .pipe(sourcemaps.init())
     .pipe(stylus())
     .pipe(concat('styles.css'))
-    .pipe(sourcemaps.write('./maps'))
+    .pipe(gulpif(yargs.makeMaps, sourcemaps.write('./maps')))
     .pipe(gulp.dest('public/css'));
 });
 
 // Build just vendor code so we don't have to rebuild all on app changes.
 gulp.task('vendor', function() {
   const build = browserify({
-    debug: true
+    debug: yargs.makeMaps
   });
 
   vendors.forEach(lib => build.require(lib));
@@ -37,8 +39,8 @@ gulp.task('vendor', function() {
   build.bundle()
     .pipe(source('vendor.js'))
     .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(sourcemaps.write('./maps'))
+    .pipe(gulpif(yargs.makeMaps, sourcemaps.init({loadMaps: true})))
+    .pipe(gulpif(yargs.makeMaps, sourcemaps.write('./maps')))
     .pipe(gulp.dest('public/js'));
 });
 
@@ -47,7 +49,7 @@ gulp.task('scripts', function() {
   const build = browserify({
     entries: ['frontend/App.jsx'],
     extensions: ['jsx'],
-    debug: true
+    debug: yargs.makeMaps
   });
 
   build.external(vendors);
@@ -56,8 +58,8 @@ gulp.task('scripts', function() {
   build.bundle()
   .pipe(source('bundle.js'))
   .pipe(buffer())
-  .pipe(sourcemaps.init({loadMaps: true}))
-  .pipe(sourcemaps.write('./maps'))
+  .pipe(gulpif(yargs.makeMaps, sourcemaps.init({loadMaps: true})))
+  .pipe(gulpif(yargs.makeMaps, sourcemaps.write('./maps')))
   .pipe(gulp.dest('public/js'));
 });
 
@@ -65,7 +67,7 @@ gulp.task('scripts', function() {
 gulp.task('build', ['styles', 'vendor', 'scripts']);
 
 // Prepares all contents before zipping ready to ship.
-gulp.task('dist', ['build', 'pyDeps'], function() {
+gulp.task('dist', ['pyDeps'], function() {
   gulp.src(['backend/**/*.py', 'backend/**/*.html'])
     .pipe(gulp.dest('dist'));
   gulp.src('public/css/*.css')
@@ -73,7 +75,7 @@ gulp.task('dist', ['build', 'pyDeps'], function() {
   gulp.src('public/js/*.js')
     .pipe(gulp.dest('dist/js'));
   gulp.src('installDependencies')
-    .pipe(gulp.dest('dist/dependencies'));
+    .pipe(gulp.dest('dist'));
 });
 
 // Package up for offline use. Run dist before this one.
