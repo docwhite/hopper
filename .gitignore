@@ -9,3 +9,4 @@ public/js/*.js
 public/js/maps
 
 package-lock.json
+*.pyc

@@ -1,4 +1,3 @@
 #!/bin/sh
-export PRODUCTION=0
-python backend/app.py
+env PRODUCTION=0 python backend/app.py
 
