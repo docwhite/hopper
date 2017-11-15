@@ -8,6 +8,7 @@ from generator import generator
 PRODUCTION = bool(int(os.getenv("PRODUCTION", "1")))
 
 if PRODUCTION:
+    sys.path.append('./dependencies')
     STATIC = os.path.dirname(__file__)
 else:
     STATIC = os.path.abspath(

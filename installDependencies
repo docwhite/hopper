@@ -1,0 +1,4 @@
+#!/bin/sh
+
+unzip *.whl
+tar -xvf *.tar.gz

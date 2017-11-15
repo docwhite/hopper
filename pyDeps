@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+import pip
+
+with open('requirements.txt') as handle:
+    deps = handle.read()
+    deps = deps.split('\n')
+    deps = filter(lambda x: x != '', deps)
+
+
+pip.pep425tags.get_platform = lambda : 'linux_x86_64'
+command = ['download', '--dest', 'dist/dependencies']
+
+for dep in deps:
+    command.insert(1, dep)
+
+print "About to execute %s" % (' '.join(command))
+
+pip.main(command)

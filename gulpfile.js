@@ -12,6 +12,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var stylus = require('gulp-stylus');
 var zip = require('gulp-zip');
 
+var exec = require('child_process').exec;
+
 const vendors = ['react', 'axios'];
 
 // Compile stylus into css
@@ -40,8 +42,8 @@ gulp.task('vendor', function() {
     .pipe(gulp.dest('public/js'));
 });
 
-// Build the application code.
-gulp.task('build', function() {
+// Build the application scripts code.
+gulp.task('scripts', function() {
   const build = browserify({
     entries: ['frontend/App.jsx'],
     extensions: ['jsx'],
@@ -59,35 +61,43 @@ gulp.task('build', function() {
   .pipe(gulp.dest('public/js'));
 });
 
-// Package up for offline use
-gulp.task('dist', ['styles', 'vendor', 'build'], function() {
-  gulp.src('backend/**/*')
+// Build application into public
+gulp.task('build', ['styles', 'vendor', 'scripts']);
+
+// Prepares all contents before zipping ready to ship.
+gulp.task('dist', ['build', 'pyDeps'], function() {
+  gulp.src(['backend/**/*.py', 'backend/**/*.html'])
     .pipe(gulp.dest('dist'));
   gulp.src('public/css/*.css')
     .pipe(gulp.dest('dist/css'));
   gulp.src('public/js/*.js')
     .pipe(gulp.dest('dist/js'));
-  gulp.src(['dist/app.py', 'dist/*/**'])
+  gulp.src('installDependencies')
+    .pipe(gulp.dest('dist/dependencies'));
+});
+
+// Package up for offline use. Run dist before this one.
+gulp.task('zip', function() {
+  gulp.src(['dist/app.py', 'dist/installDependencies', 'dist/*/**'])
     .pipe(zip('dist.zip'))
     .pipe(gulp.dest(''));
-  // Zip:
-  // backend/app.py
-  // backend/templates/index.html
-  // public/css/styles.css
-  // public/js/bundle.js
-  // public/js/vendor.js
-  //
-  // Output:
-  // dist.zip
+});
+
+// Package up python dependencies
+gulp.task('pyDeps', function() {
+  exec('./pyDeps', function(err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+  });
 });
 
 // Cleanup
 gulp.task('clean', function() {
-  return del(['public/js/*', 'public/css/*', 'dist/*', 'dist.zip']);
+  return del(['public/js/', 'public/css/', 'dist/', 'dist.zip']);
 });
 
 // Entry point
-gulp.task('default', ['styles', 'vendor', 'build'], function() {
-  gulp.watch('frontend/*.jsx', ['build']);
+gulp.task('default', ['build'], function() {
+  gulp.watch('frontend/*.jsx', ['scripts']);
   gulp.watch('frontend/*.styl', ['styles'])
 });
