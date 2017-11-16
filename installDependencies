@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd dependencies
+cd dist/dependencies
 unzip '*.whl'
 for file in *.tar.gz; do tar -zxf $file; done
 cd ..

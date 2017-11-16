@@ -1,11 +1,12 @@
 var gulp = require('gulp');
-var gulpif = require('gulp-if')
+
 var babelify = require('babelify');
 var browserify = require('browserify');
 var buffer = require('vinyl-buffer');
 var concat = require('gulp-concat');
 var del = require('del');
 var es6ify = require('es6ify');
+var gulpif = require('gulp-if')
 var reactify = require('reactify');
 var rename = require('gulp-rename');
 var source = require('vinyl-source-stream');
@@ -18,7 +19,7 @@ var yargs = require('yargs').argv;
 
 const vendors = ['react', 'axios'];
 
-// Compile stylus into css
+// Compile stylus into css.
 gulp.task('styles', function() {
   return gulp.src('./frontend/*.styl')
     .pipe(sourcemaps.init())
@@ -63,7 +64,7 @@ gulp.task('scripts', function() {
   .pipe(gulp.dest('public/js'));
 });
 
-// Build application into public
+// Build application into public.
 gulp.task('build', ['styles', 'vendor', 'scripts']);
 
 // Prepares all contents before zipping ready to ship.
@@ -74,8 +75,6 @@ gulp.task('dist', ['pyDeps'], function() {
     .pipe(gulp.dest('dist/css'));
   gulp.src('public/js/*.js')
     .pipe(gulp.dest('dist/js'));
-  gulp.src('installDependencies')
-    .pipe(gulp.dest('dist'));
 });
 
 // Package up for offline use. Run dist before this one.
@@ -93,12 +92,20 @@ gulp.task('pyDeps', function() {
   });
 });
 
-// Cleanup
+// Extract the dependencies. pyDeps must run first.
+gulp.task('extractPyDeps', function() {
+  exec('./installDependencies', function(err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+  });
+});
+
+// Cleanup.
 gulp.task('clean', function() {
   return del(['public/js/', 'public/css/', 'dist/', 'dist.zip']);
 });
 
-// Entry point
+// Entry point for development.
 gulp.task('default', ['build'], function() {
   gulp.watch('frontend/*.jsx', ['scripts']);
   gulp.watch('frontend/*.styl', ['styles'])

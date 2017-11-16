@@ -37,6 +37,7 @@ These steps are for making an offline .zip file:
     $ gulp clean
     $ gulp build
     $ gulp dist
+    $ gulp extractPyDeps
     $ gulp zip
     $ cp dist.zip /wherever/you/want/
 
