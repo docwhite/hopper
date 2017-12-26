@@ -14,19 +14,27 @@ else:
         os.path.join(os.path.dirname(__file__), '..', 'public')
     )
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
+from flask.ext.cache import Cache
 from generator import generator
 
 app = Flask(__name__)
 app._static_folder = STATIC
+cache = Cache(config={'CACHE_TYPE': 'simple'})
+cache.init_app(app)
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+@cache.cached(timeout=50)
+def backend_data():
+    return generator.generate()
+
 @app.route('/data')
 def data():
-    result = generator.generate()
+    print("Request: %s" % (request.args.get('limit', 69)))
+    result = backend_data()
     return jsonify(result)
 
 if __name__ == '__main__':

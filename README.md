@@ -29,8 +29,8 @@ A third one will serve the backend:
 
 Grab the code:
 
-    $ git clone git@github.com:docwhite/hopper.git
-    $ cd hopper
+    $ git clone git@github.com:docwhite/stats.git
+    $ cd stats
 
 These steps are for making an offline .zip file:
 

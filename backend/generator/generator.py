@@ -15,6 +15,7 @@ import random
 from random_words import RandomNicknames, RandomWords
 
 def generate():
+    print("Generating!")
     result = []
     for i in xrange(100):
         gender = 'f' if random.randint(0, 1) == 0 else 'm'
