@@ -33,8 +33,11 @@ def backend_data():
 
 @app.route('/data')
 def data():
+    limit = int(request.args.get('limit', 25))
+    page = int(request.args.get('page', 0))
     print("Request: %s" % (request.args.get('limit', 69)))
     result = backend_data()
+    result = result[(limit * page):(limit * (page+1))]
     return jsonify(result)
 
 if __name__ == '__main__':
