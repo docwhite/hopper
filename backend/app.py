@@ -37,7 +37,7 @@ def data():
     page = int(request.args.get('page', 0))
     print("Request: %s" % (request.args.get('limit', 69)))
     result = backend_data()
-    result = result[(limit * page):(limit * (page+1))]
+    result = result[(limit * (page-1)):(limit * (page+1))]
     return jsonify(result)
 
 if __name__ == '__main__':
