@@ -1,6 +1,6 @@
-# hopper
+# stats
 
-![Hopper](image.png?raw=true "Hopper Frontend")
+![stats](image.png?raw=true "Hopper Frontend")
 
 Live filtering react full-stack mini server for data presentation.
 
