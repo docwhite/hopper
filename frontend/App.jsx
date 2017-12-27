@@ -49,7 +49,7 @@ class App extends React.Component {
   }
 
   turnPreviousPage() {
-    let newPage = this.state.page - 1;
+    let newPage = Math.max(this.state.page - 1, 1);
     this.setState({ page: newPage });
     this.loadFromServer(this.state.limit, newPage);
   }

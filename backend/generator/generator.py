@@ -17,7 +17,7 @@ from random_words import RandomNicknames, RandomWords
 def generate():
     print("Generating!")
     result = []
-    for i in xrange(100):
+    for i in xrange(500):
         gender = 'f' if random.randint(0, 1) == 0 else 'm'
         result.append({
             'id': i,
@@ -27,5 +27,3 @@ def generate():
         })
 
     return result
-
-

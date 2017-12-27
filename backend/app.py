@@ -27,17 +27,20 @@ cache.init_app(app)
 def index():
     return render_template('index.html')
 
-@cache.cached(timeout=50)
+@cache.cached()
 def backend_data():
     return generator.generate()
 
 @app.route('/data')
 def data():
-    limit = int(request.args.get('limit', 25))
+    limit = request.args.get('limit', '25')
+    limit = int(limit) if limit != '-' else -1
     page = int(request.args.get('page', 0))
-    print("Request: %s" % (request.args.get('limit', 69)))
+
     result = backend_data()
-    result = result[(limit * (page-1)):(limit * (page+1))]
+    if limit != -1:
+        result = result[(limit * (page-1)):(limit * (page+1))]
+
     return jsonify(result)
 
 if __name__ == '__main__':
