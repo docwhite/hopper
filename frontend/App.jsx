@@ -26,12 +26,12 @@ class App extends React.Component {
     };
   }
 
-  loadFromServer() {
+  loadFromServer(limit, page) {
      axios
       .get('/data', {
         params: {
-          limit: this.state.limit,
-          page: this.state.page
+          limit: limit,
+          page: page
         },
       })
       .then(res => this.setState({ data: res.data }))
@@ -39,25 +39,29 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.loadFromServer();
+    this.loadFromServer(25, 1);
   }
 
   turnNextPage() {
-    this.setState({ page: this.state.page + 1});
-    this.loadFromServer();
+    let newPage = this.state.page + 1;
+    this.setState({ page: newPage });
+    this.loadFromServer(this.state.limit, newPage);
   }
 
   turnPreviousPage() {
-    this.setState({ page: this.state.page - 1});
-    this.loadFromServer();
+    let newPage = this.state.page - 1;
+    this.setState({ page: newPage });
+    this.loadFromServer(this.state.limit, newPage);
   }
 
   limitChange(ev) {
-    console.dir(ev);
+    let newLimit = ev.target.value;
+    this.setState({ limit: newLimit });
+    this.loadFromServer(newLimit, this.state.page);
   }
 
   handleQueryChange(ev) {
-    this.setState({query: ev.target.value});
+    this.setState({ query: ev.target.value });
   }
 
   handleFilterChange(event) {
