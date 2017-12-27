@@ -26,12 +26,13 @@ class App extends React.Component {
     };
   }
 
-  loadFromServer(limit, page) {
+  loadFromServer(limit, page, query = '') {
      axios
       .get('/data', {
         params: {
           limit: limit,
-          page: page
+          page: page,
+          query: query
         },
       })
       .then(res => this.setState({ data: res.data }))
@@ -43,30 +44,32 @@ class App extends React.Component {
   }
 
   turnNextPage() {
-    let newPage = this.state.page + 1;
+    const newPage = this.state.page + 1;
     this.setState({ page: newPage });
     this.loadFromServer(this.state.limit, newPage);
   }
 
   turnPreviousPage() {
-    let newPage = Math.max(this.state.page - 1, 1);
+    const newPage = Math.max(this.state.page - 1, 1);
     this.setState({ page: newPage });
     this.loadFromServer(this.state.limit, newPage);
   }
 
   limitChange(ev) {
-    let newLimit = ev.target.value;
+    const newLimit = ev.target.value;
     this.setState({ limit: newLimit });
     this.loadFromServer(newLimit, this.state.page);
   }
 
   handleQueryChange(ev) {
-    this.setState({ query: ev.target.value });
+    const newQuery = ev.target.value;
+    this.setState({ query: newQuery });
+    this.loadFromServer(this.state.limit, this.state.page, newQuery);
   }
 
   handleFilterChange(event) {
     const target = event.target;
-    let filter = this.state.filter;
+    const filter = this.state.filter;
     if (target.checked) {
       filter.push(target.id);
     } else {
@@ -108,7 +111,7 @@ class App extends React.Component {
           onTurnPrevious={this.turnPreviousPage}
           onLimitChange={this.limitChange} />
         <Box onQueryChange={this.handleQueryChange} />
-        <Table stats={data} filter={filter} query={query} />
+        <Table stats={data} filter={filter} />
         <Average stats={data} filter={filter} />
       </div>
     )
