@@ -21,7 +21,8 @@ class App extends React.Component {
       filter: [],
       query: '',
       limit: 25,
-      page: 1
+      page: 1,
+      errorMsg: ''
 
     };
   }
@@ -35,8 +36,12 @@ class App extends React.Component {
           query: query
         },
       })
-      .then(res => this.setState({ data: res.data }))
-      .catch(err => console.log(err))
+      .then(res => {
+        this.setState({ data: res.data, errorMsg: '' });
+      })
+      .catch(err => {
+        this.setState({ errorMsg: err.response.data.message });
+      });
   }
 
   componentDidMount() {
@@ -110,7 +115,9 @@ class App extends React.Component {
           onTurnNext={this.turnNextPage}
           onTurnPrevious={this.turnPreviousPage}
           onLimitChange={this.limitChange} />
-        <Box onQueryChange={this.handleQueryChange} />
+        <Box
+          onQueryChange={this.handleQueryChange}
+          errorMsg={this.state.errorMsg} />
         <Table stats={data} filter={filter} />
         <Average stats={data} filter={filter} />
       </div>
