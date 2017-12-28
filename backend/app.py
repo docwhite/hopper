@@ -9,7 +9,10 @@ if PRODUCTION:
     sys.path.append('./dependencies/MarkupSafe-1.0')
     sys.path.append('./dependencies/itsdangerous-0.24')
     sys.path.append('./dependencies/RandomWords-0.2.1')
-    # TODO add Flask Cache here too.
+    sys.path.append('./dependencies/Flask-Cache-0.13.1')
+    sys.path.append('./dependencies/click')
+    sys.path.append('./dependencies/jinja2')
+    sys.path.append('./dependencies/werkzeug')
     STATIC = os.path.dirname(__file__)
 else:
     STATIC = os.path.abspath(
